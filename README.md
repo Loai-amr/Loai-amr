@@ -1,5 +1,5 @@
 # 💫 About Me:
-🔭 I’m currently working on **Next.js** projects<br>🌱 I’m currently learning **Nest.js** for the backend<br>👨‍💻 All of my projects are available at [Loaiamr.com](https://loaiamr.com/)<br>💬 Ask me about **React**, **Next**, CMSs like **WordPress** and **Webflow**<br>📫 How to reach me loaiamr@gmail.com<br>📄 Know about my experiences [[CV]](https://loaiamr.com/wp-content/uploads/2025/02/Loai_Amr-Frontend_Developer.pdf)
+🔭 I’m currently working on **Next.js** projects<br>🌱 I’m currently learning **Nest.js** for the backend<br>💬 Ask me about **React**, **Next**, CMSs like **WordPress** and **Webflow**<br>📫 How to reach me loaiamr@gmail.com<br>
 
 
 ## 🌐 Socials:
