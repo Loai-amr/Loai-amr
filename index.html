@@ -19,6 +19,7 @@
       --border: #e4e4ea;
       --accent: #6d5efc;
       --shadow: 0 1px 2px rgba(17, 17, 20, .04), 0 4px 16px rgba(17, 17, 20, .04);
+      --ease: cubic-bezier(.2, .7, .2, 1);
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -40,7 +41,9 @@
       display: flex;
       justify-content: center;
       padding: 56px 16px 40px;
-      background: var(--bg);
+      background:
+        radial-gradient(60% 320px at 50% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 75%),
+        var(--bg);
       color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -81,9 +84,12 @@
       box-shadow: var(--shadow);
       color: inherit;
       text-decoration: none;
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      transition: transform .2s var(--ease), border-color .2s ease, background .2s ease, box-shadow .2s ease;
     }
-    .link:hover { background: var(--card-hover); border-color: var(--accent); transform: translateY(-1px); }
+    .link:hover {
+      background: var(--card-hover); border-color: var(--accent); transform: translateY(-2px);
+      box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--accent) 70%, transparent);
+    }
     .link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     .icon {
@@ -93,19 +99,38 @@
       border-radius: 10px;
       background: color-mix(in srgb, var(--accent) 12%, transparent);
       color: var(--accent);
+      transition: background .2s ease, color .2s ease, transform .3s var(--ease);
     }
+    .link:hover .icon { background: var(--accent); color: #fff; transform: rotate(-6deg) scale(1.05); }
     svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     .text { flex: 1; min-width: 0; }
     .title { display: block; font-weight: 600; }
     .sub { display: block; margin-top: 2px; color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .arrow { flex: none; color: var(--muted); }
+    .arrow { flex: none; color: var(--muted); transition: color .2s ease, transform .2s var(--ease); }
+    .link:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
     .arrow svg { width: 18px; height: 18px; }
 
     footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: .8rem; }
 
-    @media (prefers-reduced-motion: reduce) { .link { transition: none; } .link:hover { transform: none; } }
+    /* ---------- Entrance animations ---------- */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes popIn  { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+    @keyframes ring   { from { box-shadow: 0 0 0 2px var(--accent), 0 0 0 2px color-mix(in srgb, var(--accent) 45%, transparent); }
+                        to   { box-shadow: 0 0 0 2px var(--accent), 0 0 0 16px transparent; } }
+
+    .avatar { animation: popIn .6s var(--ease) both, ring 1.4s ease-out .5s both; }
+    h1   { animation: fadeUp .6s var(--ease) .08s both; }
+    .bio { animation: fadeUp .6s var(--ease) .14s both; }
+    /* --i is set per item in the markup; backwards fill keeps hover transforms working afterwards */
+    .section-label, ul > li { animation: fadeUp .55s var(--ease) backwards; animation-delay: calc(.2s + var(--i, 0) * 55ms); }
+    footer { animation: fadeUp .6s var(--ease) .7s backwards; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .link:hover, .link:hover .icon, .link:hover .arrow { transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -116,23 +141,23 @@
       <p class="bio">Front End Developer · Next.js | WordPress</p>
     </header>
 
-    <p class="section-label">Links</p>
+    <p class="section-label" style="--i:0">Links</p>
     <ul>
-      <li>
+      <li style="--i:1">
         <a class="link" href="https://www.loaiamr.com/" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
           <span class="text"><span class="title">Website</span><span class="sub">My portfolio &amp; projects</span></span>
           <span class="arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
         </a>
       </li>
-      <li>
+      <li style="--i:2">
         <a class="link" href="https://shop.loaiamr.com/" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
           <span class="text"><span class="title">Elementor x Claude Skill</span><span class="sub">Browse my store</span></span>
           <span class="arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
         </a>
       </li>
-      <li>
+      <li style="--i:3">
         <a class="link" href="https://mygoalstracking.loaiamr.com/" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <span class="text"><span class="title">Goals Tracker</span><span class="sub">Track your goals</span></span>
@@ -141,23 +166,23 @@
       </li>
     </ul>
 
-    <p class="section-label">Socials</p>
+    <p class="section-label" style="--i:4">Socials</p>
     <ul>
-      <li>
+      <li style="--i:5">
         <a class="link" href="https://www.instagram.com/loaiiiamr/" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></span>
           <span class="text"><span class="title">Instagram</span><span class="sub">@loaiiiamr</span></span>
           <span class="arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
         </a>
       </li>
-      <li>
+      <li style="--i:6">
         <a class="link" href="https://www.tiktok.com/@loaiiamr" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V3c0 2.8 2.2 5 5 5"/></svg></span>
           <span class="text"><span class="title">TikTok</span><span class="sub">@loaiiamr</span></span>
           <span class="arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
         </a>
       </li>
-      <li>
+      <li style="--i:7">
         <a class="link" href="https://www.linkedin.com/in/loai-amrr/" target="_blank" rel="noopener">
           <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></span>
           <span class="text"><span class="title">LinkedIn</span><span class="sub">in/loai-amrr</span></span>
