@@ -10,5 +10,3 @@
 
 # 📊 GitHub Stats:
 ![](https://github-readme-streak-stats.herokuapp.com/?user=Loai-amr&theme=dark&hide_border=true)<br/>
-
-A `404.html` page (with a small animated terminal) is served automatically by GitHub Pages for missing URLs.
